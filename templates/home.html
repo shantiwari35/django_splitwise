@@ -1,0 +1,108 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <br>
+  First Name = {{ user.first_name }}
+  <br>
+  Last Name = {{ user.last_name }}
+  <br>
+  Email = {{ user.email }}
+  <br>
+  Profile Photo
+  {% if user.profile.image %}
+    <img src="{{ user.profile.image.url }}" width="200" height="200">
+  {% else %}
+    <img src="default_face.png" width="200" height="200">
+  {% endif %}
+  <p><a href="{% url 'logout' %}">logout</a></p>
+  <p><a href="{% url 'password_change' %}">change password</a></p>
+  <p><a href="{% url 'notification' %}">notification</a></p>
+  <p>You have {{ no_of_messages }} messages</p>
+  {% if new_messages != 0 %}
+    <p style="color:red">You have {{ new_messages }} new messages</p>
+  {% endif %}
+  <br>
+  <br>
+  <br>
+    <h2>Edit Profile</h2>
+    <form action="/splitwise/success/" method="POST" enctype="multipart/form-data", autocomplete="off">
+        {% csrf_token %}
+        {{ edit_profile_form }}
+        <input type="submit" class="btn btn-primary" value="Submit" name="edit_profile">
+  </form>
+  <h2>Friends</h2>
+  <br>
+  <h4>Add Friends</h4>
+  <br>
+  <form action="/splitwise/success/" method="POST" autocomplete="off">
+        {% csrf_token %}
+        
+        {{ friend_form }}
+      
+    
+        <input type="submit"  value="Submit" class="btn btn-primary" name="friend">
+    
+  </form>
+  <br>
+  <table>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+    {% for f,g in friends_list %}
+    <tr>
+        <td><a href="/splitwise/friend/{{ f.person2.id }}/">{{ f.person2 }}</a></td>
+        {% if g == 1 %}
+        <td><font color="green">{{ f.money_owed }}</font></td>
+        {% else %}
+        <td><font color="red">{{ f.money_owed }}</font></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+    <h2>Groups</h2>
+    <br>
+    <h4>Add Group</h4>
+    <form action="/splitwise/success/" method="POST" autocomplete="off">
+        {% csrf_token %}
+        {{ group_form }}
+        <input type="submit" class="btn btn-primary" value="Submit" class="btn btn-primary" name="group">
+  </form>
+    <br>
+    <table>
+      <tr>
+        <th>Name</th>
+            <th>Status</th>
+      </tr>
+    {% for g,b in groups_list %}
+    <tr>
+        <td><a href="/splitwise/group/{{ g.group.id }}/">{{ g.group }}</a></td>
+        {% if b == 1 %}
+        <td><font color = green>{{ g.money_owed }}</font></td>
+        {% else %}
+        <td><font color = red>{{ g.money_owed }}</font></td>
+        {% endif %}
+        <td><form action="/splitwise/success/" method="POST">
+        {% csrf_token %}
+        <input type="submit"  value="Delete" class="btn btn-danger" name= "{{ g.group.group_name }}">
+        </form></td>
+    </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <a href = "/splitwise/transaction/"><h3>Add Expense</h3></a>
+    <a href = "/splitwise/activity_tab/"><h3>Activity Tab</h3></a>
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %}
+{% endblock %}

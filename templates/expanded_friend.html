@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	
+
+	<h1>{{ a }}</h1>
+
+	<form action="/splitwise/friend/{{ friend.id }}/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Settle Up" name= "settle_up">
+    </form>
+
+    <p><a href="/splitwise/remind/{{ f }}">remind</a></p>
+
+    {% if boolean == 1 %}
+    	{{ a }} owes you {{ zxxx }} outside group
+    	{% else %}
+    	You owe {{ a }} {{  zxxx }} outside group
+    {% endif %}
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+      </tr>
+    {% for g,boolean in lst %}
+        
+        <tr>
+            <td><a href="/splitwise/group/{{ g.0.id }}/">{{ g.0.group_name }}</a></td>
+            {% if boolean == 1 %}
+            <td><font color = green>{{ g.1 }}</font></td>
+            {% else %}
+            <td><font color = red>{{ g.1 }}</font></td>
+            {% endif %}
+        </tr>
+        
+    {% endfor %}
+    </table>
+    <a href = "/splitwise/success/">Go Back</a>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <title>Insights</title>
+ 
+</head>
+<body>
+  <form action="/splitwise/insights/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Download Excel" name= "downloadx">
+    </form>
+     <form action="/splitwise/insights/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Download PDF" name= "downloadpdf">
+    </form>
+  {% autoescape off %}
+  {{ plot_div1 }}
+  {{ plot_div2 }}
+  {{ plot_div3 }}
+  {{ plot_div4 }}
+  {% endautoescape %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<h1>Transaction</h1>
+
+	<form action="/splitwise/transaction/form/" method="POST" autocomplete="off">
+        {% csrf_token %}
+        {{ transaction_form }}
+        <input type="submit" class="btn btn-primary" value="Submit" name="transaction">
+  </form>
+
+   
+{% endblock %}

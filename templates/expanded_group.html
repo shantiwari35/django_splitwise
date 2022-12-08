@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<h1>Group</h1>
+	<form action="/splitwise/group/{{ g }}/" method="POST">
+        {% csrf_token %}
+        {{ change_form }}
+        <input type="submit" class="btn btn-primary" value="Settle Up" name= "settle_up">
+    </form>
+    <form action="/splitwise/balances/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Balances" name= "balances">
+    </form>
+	<a href = "/splitwise/groups/transaction/"><h3>Add Expense</h3></a>
+	<br>
+	<h2>Transactions</h2>
+	{% for a,b,c,d,e,z in trans_list %}
+	<table>	
+			<tr>Date:{{ a.0 }}</tr><br>
+			<tr>Description: {{ d.0 }}</tr><br>
+			<tr>Tag: {{ c.0 }}</tr><br>
+			{% if c.0 != 'Settle' %}
+			<tr>{{ b.0 }} paid {{ z }}</tr><br>
+			
+			{% for f in e %}
+			<tr>{{ f.0 }} owes {{ f.1 }}</tr><br>
+			{% endfor %}
+			{% else %}
+			{% for f in e %}
+			<tr>{{ b.0 }} paid {{ z }} to {{ f.0 }}</tr><br>
+			{% endfor %}
+			{% endif %}
+	</table>
+	<br><br>
+	{% endfor %}
+	<a href='/splitwise/success/'>Go back</a>
+	
+{% endblock %}

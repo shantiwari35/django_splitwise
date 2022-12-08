@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<form action="/splitwise/remind/{{ f }}/" method="POST">
+	{% csrf_token %}
+	{{ reminder_form }}
+	<input type="submit" class="btn btn-primary" value="Submit" name="remind">
+</form>
+
+{% endblock %}

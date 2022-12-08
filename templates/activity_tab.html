@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+	{% for f,g,h,i,j in send_list %}
+		{% if h == "group does not exist xxxxxxwkebjkerjbkjengksdbkejbg" %}
+			<a href="/splitwise/detailed_activity/{{ i.group_transaction_id }}/"><h1>{{ i.added_by.username }} Added {{ g }}</h1></a>
+		{% else %}
+			<a href="/splitwise/detailed_activity/{{ i.group.id }}/{{ i.group_transaction_id }}/"><h1>{{ i.added_by.username }} Added {{ g }} to {{ h }}</h1></a>
+		{% endif %}
+		{% if j == 1 %}
+			{% if g != 'Settling!' %}
+			<p style="color:green;">You get back {{ f }}</p>
+			{% else %}
+			<p style="color:green;">You paid {{ f }}</p>
+			{% endif %}
+		{% else %}
+			{% if g != 'Settling!' %}
+			<p style="color:red;">You owe {{ f }}</p>
+			{% else %}
+			<p style="color:red;">You were paid {{ f }}</p>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	<a href="{% url 'success' %}">Go Back</a>
+{% endblock %}

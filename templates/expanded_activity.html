@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<h1>Detailed Activity</h1>
+	{{ payer }} paid {{ total_amount }}
+	<br>
+	{% for f,g in lst %}
+		{{ f }} owes {{ g }}
+		<br>
+	{% endfor %}
+{% endblock %}

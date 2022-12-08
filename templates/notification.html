@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h1>Received messages</h1>
+{% for g in received_messages %}
+	<p>Message from {{ g.person1.username }} on {{ g.date }}</p>
+	<p>{{ g.message }}</p>
+	<br>
+{% endfor %}
+<br>
+<br>
+<br>
+<br>
+<h1>Sent messages</h1>
+{% for f in sent_messages %}
+	<p>Message to {{ f.person2.username }} on {{ g.date }}</p>
+	<p>{{ f.message }}</p>
+	<br>
+{% endfor %}
+<a href = "/splitwise/success/"><h3>Go back</h3></a>
+{% endblock %}
